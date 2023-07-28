@@ -26,6 +26,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
   final Widget? loadingReplacement;
   final Color webViewBackgroundColor;
   final String? userAgent;
+  final Function(String url)? getCurrentUrl;
 
   const ADB2CEmbedWebView({
     super.key,
@@ -47,6 +48,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
     this.loadingReplacement,
     this.webViewBackgroundColor = const Color(0x00000000),
     this.userAgent,
+    this.getCurrentUrl,
 
     // Optionals with default value
     this.responseType = Constants.defaultResponseType,
@@ -58,11 +60,14 @@ class ADB2CEmbedWebView extends StatefulWidget {
 
 class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   final _key = UniqueKey();
+
   final PkcePair pkcePairInstance = PkcePair.generate();
   WebViewController? controller;
   late Function(BuildContext context) onRedirect;
   late Function(BuildContext context) onErrorOrCancel;
   Widget? loadingReplacement;
+  late Function onRedirect;
+  late Function getCurrentUrl;
 
   bool isLoading = true;
   bool showRedirect = false;
@@ -121,6 +126,11 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   void dispose() {
     super.dispose();
     controller = null;
+    getCurrentUrl = widget.getCurrentUrl ?? () {};
+
+    //Enable virtual display.
+    if (Platform.isAndroid) WebView.platform = AndroidWebView();
+    super.initState();
   }
 
   /// Callback function for handling any token received.
@@ -206,6 +216,9 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
         // Assume login cancelled or something else went wrong
         onErrorOrCancel(context);
       }
+    } else {
+      // To get forgot password and reset password page urls.
+      getCurrentUrl(url);
     }
   }
 
