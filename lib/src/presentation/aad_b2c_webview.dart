@@ -145,6 +145,8 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
       } else if (url.contains(Constants.authCode)) {
         //Run authorization code flow and get access token.
         authorizationCodeFlow(url);
+      } else {
+        print('-------onElse received--------');
       }
     }
   }
