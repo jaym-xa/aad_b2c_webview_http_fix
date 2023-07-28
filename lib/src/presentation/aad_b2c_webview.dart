@@ -27,6 +27,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
   final Color webViewBackgroundColor;
   final String? userAgent;
   final Function(String url)? getCurrentUrl;
+  final Function(String url)? onGetCurrentPageUrl;
 
   const ADB2CEmbedWebView({
     super.key,
@@ -49,6 +50,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
     this.webViewBackgroundColor = const Color(0x00000000),
     this.userAgent,
     this.getCurrentUrl,
+    this.onGetCurrentPageUrl,
 
     // Optionals with default value
     this.responseType = Constants.defaultResponseType,
@@ -67,7 +69,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   late Function(BuildContext context) onErrorOrCancel;
   Widget? loadingReplacement;
   late Function onRedirect;
-  late Function getCurrentUrl;
+  late Function onGetCurrentPageUrl;
 
   bool isLoading = true;
   bool showRedirect = false;
@@ -127,6 +129,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
     super.dispose();
     controller = null;
     getCurrentUrl = widget.getCurrentUrl ?? () {};
+    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? () {};
 
     //Enable virtual display.
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
@@ -218,7 +221,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
       }
     } else {
       // To get forgot password and reset password page urls.
-      getCurrentUrl(url);
+      onGetCurrentPageUrl(url);
     }
   }
 
