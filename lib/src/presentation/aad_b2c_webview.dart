@@ -22,7 +22,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
   final List<String> scopes;
   final String responseType;
   final List<OptionalParam> optionalParameters;
-  final Function(String url)? getCurrentUrl;
+  final Function(String url)? onGetCurrentPageUrl;
 
   const ADB2CEmbedWebView({
     super.key,
@@ -40,7 +40,7 @@ class ADB2CEmbedWebView extends StatefulWidget {
     // Optionals
     this.onRedirect,
     this.onAnyTokenRetrieved,
-    this.getCurrentUrl,
+    this.onGetCurrentPageUrl,
 
     // Optionals with default value
     this.responseType = Constants.defaultResponseType,
@@ -54,7 +54,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   final PkcePair pkcePairInstance = PkcePair.generate();
   final _key = UniqueKey();
   late Function onRedirect;
-  late Function getCurrentUrl;
+  late Function onGetCurrentPageUrl;
 
   bool isLoading = true;
   bool showRedirect = false;
@@ -66,7 +66,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
           Navigator.of(context).pop();
         };
 
-    getCurrentUrl = widget.getCurrentUrl ?? () {};
+    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? () {};
 
     //Enable virtual display.
     if (Platform.isAndroid) WebView.platform = AndroidWebView();
@@ -153,7 +153,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
       }
     } else {
       // To get forgot password and reset password page urls.
-      getCurrentUrl(url);
+      onGetCurrentPageUrl(url);
     }
   }
 
