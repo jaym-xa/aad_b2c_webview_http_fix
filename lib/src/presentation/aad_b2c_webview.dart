@@ -233,6 +233,22 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
           WebViewWidget(
             key: _key,
             controller: controller!,
+            debuggingEnabled: true,
+            onWebViewCreated: (WebViewController controller) {
+              controller.clearCache();
+            },
+            initialUrl: getUserFlowUrl(
+                userFlow:"${widget.tenantBaseUrl}/${Constants.userFlowUrlEnding}"),
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (String url) {
+              setState(() {
+                isLoading = false;
+              });
+
+              final Uri response = Uri.dataFromString(url);
+              //Check that the user is past authentication and current URL is the redirect with the code.
+              onPageFinishedTasks(url, response);
+            },
           ),
           Visibility(
               visible:
