@@ -26,7 +26,6 @@ class ADB2CEmbedWebView extends StatefulWidget {
   final Widget? loadingReplacement;
   final Color webViewBackgroundColor;
   final String? userAgent;
-  final Function(String url)? getCurrentUrl;
   final Function(String url)? onGetCurrentPageUrl;
 
   const ADB2CEmbedWebView({
@@ -49,7 +48,6 @@ class ADB2CEmbedWebView extends StatefulWidget {
     this.loadingReplacement,
     this.webViewBackgroundColor = const Color(0x00000000),
     this.userAgent,
-    this.getCurrentUrl,
     this.onGetCurrentPageUrl,
 
     // Optionals with default value
@@ -85,7 +83,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
           Navigator.of(context).pop();
         };
     loadingReplacement = widget.loadingReplacement;
-    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? () {};
+    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? (url) {};
 
     final webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
