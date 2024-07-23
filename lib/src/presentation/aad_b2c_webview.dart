@@ -68,7 +68,6 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   late Function(BuildContext context) onRedirect;
   late Function(BuildContext context) onErrorOrCancel;
   Widget? loadingReplacement;
-  late Function onRedirect;
   late Function onGetCurrentPageUrl;
 
   bool isLoading = true;
