@@ -103,6 +103,8 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
             setState(() {
               isLoading = false;
             });
+            final Uri response = Uri.dataFromString(url);
+            onPageFinishedTasks(url, response);
           },
         ),
       )
