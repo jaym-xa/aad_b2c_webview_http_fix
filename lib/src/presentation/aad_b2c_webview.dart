@@ -85,6 +85,7 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
           Navigator.of(context).pop();
         };
     loadingReplacement = widget.loadingReplacement;
+    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? () {};
 
     final webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -127,11 +128,9 @@ class ADB2CEmbedWebViewState extends State<ADB2CEmbedWebView> {
   void dispose() {
     super.dispose();
     controller = null;
-    onGetCurrentPageUrl = widget.onGetCurrentPageUrl ?? () {};
 
     //Enable virtual display.
     // if (Platform.isAndroid) WebView.platform = AndroidWebView();
-    super.initState();
   }
 
   /// Callback function for handling any token received.
